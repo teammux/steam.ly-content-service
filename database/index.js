@@ -1,21 +1,17 @@
-const { Pool } = require('pg');
-const config = require('./config');
+const mysql = require('mysql');
+const mysqlConfig = require('./config.js');
 
-const pool = new Pool(config);
+const connection = mysql.createConnection(mysqlConfig);
 
 const addGame = function(game) {
-  return pool.query('INSERT INTO games( name, publisher, release_date, genre_type, price, number_of_owners) values($1, $2, $3, $4, $5, $6)',
-    [game.name, game.publisher, game.release_date, game.genre_type, game.price, game.number_of_owners]);
+  connection.query({sql: 'INSERT INTO games (name, publisher, release_date, genre, price, number_of_owners) VALUES ?',
+    values: [[game.name, game.publisher, game.release_date, game.genre, game.price, game.number_of_owners]]});
 };
 
-const getAllGames = (callback) =>
-  pool.query('SELECT * FROM games', (err, res) => {
-    if (err) {
-      console.log(err.stack)
-    } else {
-      callback(res.rows);
-    }
-});
+const getAllGames = function() {
+  connection.query('SELECT * FROM games');
+};
+
 
 const getGame = (callback) => {
 
@@ -26,4 +22,5 @@ module.exports = {
   getAllGames,
   getGame
 };
+
 
