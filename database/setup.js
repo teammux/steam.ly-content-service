@@ -6,7 +6,7 @@ USE contentService;
 
 CREATE TABLE games (
   id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL,
+  name VARCHAR(50) NOT NULL UNIQUE,
   publisher VARCHAR(50),
   release_date DATE,
   genre ENUM('action', 'action_adventure', 'adventure', 'role_playing', 'simulation', 'strategy', 'sports'),
