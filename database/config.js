@@ -1,5 +1,5 @@
 module.exports = {
-  connectionLimit: 20,
+  connectionLimit: 150,
   host: 'localhost',
   user: 'root',
   password: '',

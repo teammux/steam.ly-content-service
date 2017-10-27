@@ -1,4 +1,3 @@
-const v8 = require('v8');
 const db = require('./index');
 
 var randomGame = function(name) {
@@ -51,7 +50,6 @@ var generateRandomGames_Chunks = function(chunkNumber) {
 };
 
 var generateChunks = function(number) {
-  console.log(v8.getHeapStatistics());
   var promises = [];
   for (var i = 1; i <= number; i++) {
     var promise = generateRandomGames_Chunks(i);
@@ -62,7 +60,7 @@ var generateChunks = function(number) {
   });
 };
 
-generateChunks(150);
+generateChunks(100);
 
 // var generateChunks = function(numberOfChunks) {
 //   for (var k = 1; k <= numberOfChunks; k++) {
