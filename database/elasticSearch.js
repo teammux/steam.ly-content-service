@@ -1,5 +1,8 @@
-const v8 = require('v8');
-const db = require('./index');
+var elasticsearch = require('elasticsearch');
+
+var client = new elasticsearch.Client({
+  host: 'localhost:9200'
+});
 
 var randomGame = function(name) {
   var randomDate = function() {
@@ -31,47 +34,49 @@ var randomGame = function(name) {
   var randomPrice = prices[Math.floor(Math.random() * prices.length)];
   var randomNumberOfOwners = Math.floor(Math.random() * 1000000);
 
-  var randomGame = [name, randomPublisher, randomReleaseDate, randomGenre, randomPrice, randomNumberOfOwners];
+  var randomGame = {
+    'name': name,
+    'publisher': randomPublisher,
+    'release_date': randomReleaseDate,
+    'genre': randomGenre,
+    'price': randomPrice,
+    'number_of_owners': randomNumberOfOwners
+  };
   return randomGame;
 };
 
-var generateRandomGames_Chunks = function(chunkNumber) {
-  var gamesArray = [];
+var generateRandomGames = function() {
+  var bodyArray = [];
   var currentGameName = null;
-  var currentGame = null;
-  var startIndex = (20000 * chunkNumber) + 1;
-  var endIndex = startIndex + 20000;
 
-  for (var i = startIndex; i < endIndex; i++) {
+  // var startIndex = (20000 * chunkNumber) + 1;
+  // var endIndex = startIndex + 20000;
+
+  for (var i = 1800001; i <= 2200000; i++) {
     currentGameName = 'game #' + i;
-    currentGame = randomGame(currentGameName);
-    gamesArray.push(currentGame);
+    var currentGame = randomGame(currentGameName);
+    var elasticObj = {
+      'index': {
+        '_index': 'gamesindex',
+        '_type': 'game',
+        '_id': i
+      }
+    };
+   bodyArray.push(elasticObj);
+    bodyArray.push(currentGame);
   }
-  return db.addGames(gamesArray);
+  return bodyArray;
 };
 
-var generateChunks = function(number) {
-  console.log(v8.getHeapStatistics());
-  var promises = [];
-  for (var i = 1; i <= number; i++) {
-    var promise = generateRandomGames_Chunks(i);
-    promises.push(promise);
-  }
-  Promise.all(promises).then(() => {
-    console.log('chunks added', number);
-  });
-};
+var randomGamesArray = generateRandomGames();
 
-generateChunks(150);
+client.bulk({timeout: '1m', body: randomGamesArray },
+  function (err, resp) {
+    if (err) {
+    console.log('elasticsearch error', err);
+    } else {
+    console.log(resp.items.length + ' items loaded');
+    }
+});
 
-// var generateChunks = function(numberOfChunks) {
-//   for (var k = 1; k <= numberOfChunks; k++) {
-//     generateRandomGames(10000);
-//   }
-// };
 
-// generateChunks(10);
-
-// db.addGames(games, function(result) {
-//   console.log(result.affectedRows + ' rows added');
-// });
