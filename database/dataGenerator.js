@@ -1,4 +1,15 @@
 const db = require('./index');
+const games = require('./games');
+
+var getRandomItemFromArray = function(array) {
+  var randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+};
+
+var createRandomGame = function(name, releaseDate) {
+  var publisher = getRandomItemFromArray(publishers);
+
+}
 
 var randomGame = function(name) {
   var randomDate = function() {
@@ -60,7 +71,13 @@ var generateChunks = function(number) {
   });
 };
 
-generateChunks(100);
+//generateChunks(100);
+var randomGameObj = games.createRandomGameObject('Aliens', '2012-09-09');
+var randomGameArr = games.
+  createRandomGameArray('Baseball', '2015-12-10');
+
+console.log('obj', randomGameObj);
+console.log('arr', randomGameArr);
 
 // var generateChunks = function(numberOfChunks) {
 //   for (var k = 1; k <= numberOfChunks; k++) {
