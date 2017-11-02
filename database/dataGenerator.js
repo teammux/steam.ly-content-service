@@ -20,4 +20,4 @@ var generateGamesForDatabase = function(numberOfGames, startIndex, startDate, da
   });
 };
 
-generateGamesForDatabase(3000000, 1, '2000-01-01', 7, 10);
+generateGamesForDatabase(1000000, 1, '2000-01-01', 7, 10);

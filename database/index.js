@@ -20,8 +20,15 @@ const getAllGames = function() {
   connection.query('SELECT * FROM games');
 };
 
-const getGame = (callback) => {
-
+const getGame = (id, callback) => {
+  connection.query('SELECT * FROM games WHERE id = ?',
+    [id], (err, result) => {
+    if (err) {
+      console.log('error retrieving game', err);
+    } else {
+      callback(result);
+    }
+  });
 };
 
 module.exports = {
