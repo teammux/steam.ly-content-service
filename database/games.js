@@ -9,6 +9,12 @@ const MIN_OWNERS = 10000;
 const MAX_RATING = 100;
 const MIN_RATING = 50;
 
+var incrementDate = function(date, daysToIncrement) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + daysToIncrement);
+  return result;
+};
+
 var getRandomItemFromArray = function(array) {
   var randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
@@ -50,7 +56,31 @@ var createRandomGameArray = function(name, releaseDate) {
   return gameArr;
 };
 
+var generateRandomGames = function(numberOfGames, startIndex,
+  startDate, daysToIncrement, gamesPerDay) {
+  var endIndex = startIndex + numberOfGames - 1;
+  var curIndex = startIndex;
+  var gameName = null;
+  var curDate = new Date(startDate);
+  var curNumberOfGamesOnDay = 1;
+  var gamesArray = [];
+
+  while (curIndex <= endIndex) {
+    gameName = 'game #' + curIndex;
+    currentGame = createRandomGameArray(gameName, curDate);
+    gamesArray.push(currentGame);
+    if (curNumberOfGamesOnDay >= gamesPerDay) {
+      curDate = incrementDate(curDate, daysToIncrement);
+      curNumberOfGamesOnDay = 0;
+    }
+    curIndex++;
+    curNumberOfGamesOnDay++;
+  }
+  return gamesArray;
+};
+
 module.exports = {
   createRandomGameObject,
-  createRandomGameArray
+  createRandomGameArray,
+  generateRandomGames
 };
