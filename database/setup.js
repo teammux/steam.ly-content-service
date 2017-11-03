@@ -12,7 +12,7 @@ CREATE TABLE games (
   genre ENUM('action', 'fps', 'rpg'),
   rating SMALLINT,
   price SMALLINT,
-  owners BIGINT,
+  ownership BIGINT,
   PRIMARY KEY (id)
 );
 

@@ -4,8 +4,8 @@ const PUBLISHERS = ['Electronic Arts', 'Square Enix', 'Nintendo',
 const GENRES = ['action', 'fps', 'rpg'];
 const MAX_PRICE = 65;
 const MIN_PRICE = 10;
-const MAX_OWNERS = 100000;
-const MIN_OWNERS = 10000;
+const MAX_OWNERSHIP = 100000;
+const MIN_OWNERSHIP = 10000;
 const MAX_RATING = 100;
 const MIN_RATING = 50;
 
@@ -27,7 +27,7 @@ var getRandomItemFromRange = function(low, high) {
 var createRandomGameObject = function(name, releaseDate) {
   var publisher = getRandomItemFromArray(PUBLISHERS);
   var genre = getRandomItemFromArray(GENRES);
-  var owners = getRandomItemFromRange(MIN_OWNERS, MAX_OWNERS);
+  var ownership = getRandomItemFromRange(MIN_OWNERSHIP, MAX_OWNERSHIP);
   var rating = getRandomItemFromRange(MIN_RATING, MAX_RATING);
   var price = getRandomItemFromRange(MIN_PRICE, MAX_PRICE);
   var gameObj = {
@@ -37,7 +37,7 @@ var createRandomGameObject = function(name, releaseDate) {
     genre: genre,
     rating: rating,
     price: price,
-    owners: owners
+    ownership: ownership
   };
   return gameObj;
 };
@@ -51,7 +51,7 @@ var createRandomGameArray = function(name, releaseDate) {
     gameObj.genre,
     gameObj.rating,
     gameObj.price,
-    gameObj.owners
+    gameObj.ownership
   ];
   return gameArr;
 };
