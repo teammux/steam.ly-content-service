@@ -14,10 +14,11 @@ var generateGamesForDatabase = function(numberOfGames, startIndex, startDate, da
     var curPromise = db.addGames(gamesArray);
     promises.push(curPromise);
     numberOfIterations += arraySize;
+    startIndex += arraySize;
   }
   Promise.all(promises).then(() => {
     console.log('games added', numberOfGames);
   });
 };
 
-generateGamesForDatabase(2000000, 1, '2016-12-31', -7, 1000);
+generateGamesForDatabase(1000000, 1, '2016-12-31', -7, 1000);
