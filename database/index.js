@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const mysqlConfig = require('./config.js');
+const mysqlConfig = require('../config/development.js');
 
 const connection = mysql.createPool(mysqlConfig);
 
@@ -68,8 +68,16 @@ const getGames = (sql, callback) => {
   });
 };
 
+const getGamesByIds = (ids, callback) => {
+  var sql = `SELECT * FROM  games WHERE id IN (${ids})`;
+  connection.query(sql, (err, result) => {
+    callback(err, result);
+  });
+};
+
 module.exports = {
   sqlBuilder,
   addGames,
-  getGames
+  getGames,
+  getGamesByIds
 };

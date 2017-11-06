@@ -1,11 +1,11 @@
 var db = require('../database/index.js');
 var express = require('express');
 var app = express();
+var port = 3000;
 
 app.get('/games/search', function (req, res) {
   var query = req.query;
   var sql = db.sqlBuilder(query);
-  console.log('sql', sql);
   db.getGames(sql, function(err, result) {
     if (err) {
       res.send('Error reading query');
@@ -44,6 +44,20 @@ app.get('/games/:id', function (req, res) {
   });
 });
 
-app.listen(3000, function () {
-  console.log('app listening on port 3000!');
+app.get('/games', function (req, res) {
+  var ids = req.query.ids;
+  db.getGamesByIds(ids, function(err, result) {
+    if (err) {
+      res.send('Error reading query');
+    } else {
+      res.send(result);
+    }
+  });
 });
+
+app.listen(port, function () {
+  console.log('content service server started on port', port);
+});
+
+module.exports = app;
+
