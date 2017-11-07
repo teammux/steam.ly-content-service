@@ -4,7 +4,7 @@
   "description": "interface to database of games",
   "main": "index.js",
   "scripts": {
-    "test": "run test"
+    "test": "NODE_ENV=test mocha ./test/database.test.js"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,13 @@
   },
   "homepage": "https://github.com/teammux/steam.ly-content-service#readme",
   "dependencies": {
+    "chai": "^4.1.2",
+    "elasticsearch": "^13.3.1",
     "express": "^4.16.2",
+    "mocha": "^4.0.1",
     "mysql": "^2.15.0",
     "pg": "^7.3.0",
+    "supertest": "^3.0.0",
     "v8": "^0.1.0"
   }
 }
