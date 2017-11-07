@@ -62,6 +62,16 @@ const addGames = function(games) {
   });
 };
 
+const gamesObjectsToArrays = function(gamesArray) {
+  var result = [];
+
+  gamesArray.forEach((obj) => {
+  var curGame = [obj.name, obj.publisher, obj.releaseDate, obj.genre, obj.rating, obj.price, obj.ownership];
+  result.push(curGame);
+  });
+  return result;
+};
+
 const getGames = (sql, callback) => {
   connection.query(sql, (err, result) => {
     callback(err, result);
@@ -69,7 +79,30 @@ const getGames = (sql, callback) => {
 };
 
 const getGamesByIds = (ids, callback) => {
-  var sql = `SELECT * FROM  games WHERE id IN (${ids})`;
+  var sql = `SELECT * FROM games WHERE id IN (${ids})`;
+  connection.query(sql, (err, result) => {
+    callback(err, result);
+  });
+};
+
+const updateGames = function(valuesObject, ids, callback) {
+  var sql = 'UPDATE games SET ';
+  var updateValues = [];
+
+  for (var key in valuesObject) {
+    var curSql = `${key} = ?, `;
+    sql += curSql;
+    updateValues.push(valuesObject[key]);
+  }
+  sql = sql.slice(0, -2);
+  sql += ` WHERE id IN (${ids})`;
+  connection.query(sql, updateValues, (err, result) => {
+      callback(err, result);
+    });
+};
+
+const deleteGamesByIds = (ids, callback) => {
+  var sql = `DELETE FROM games WHERE id IN (${ids})`;
   connection.query(sql, (err, result) => {
     callback(err, result);
   });
@@ -77,7 +110,10 @@ const getGamesByIds = (ids, callback) => {
 
 module.exports = {
   sqlBuilder,
+  gamesObjectsToArrays,
   addGames,
   getGames,
-  getGamesByIds
+  getGamesByIds,
+  updateGames,
+  deleteGamesByIds
 };

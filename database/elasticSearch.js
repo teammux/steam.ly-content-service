@@ -28,6 +28,9 @@ var randomGame = function(name) {
 
   const prices = ['19.99', '29.99', '39.99', '49.99', '59.99'];
 
+  const startIndex = 1800001;
+  const endIndex = startIndex + 400000;
+
   var randomPublisher = publishers[Math.floor(Math.random() * publishers.length)];
   var randomReleaseDate = randomDate();
   var randomGenre = genres[Math.floor(Math.random() * genres.length)];
@@ -52,7 +55,7 @@ var generateRandomGames = function() {
   // var startIndex = (20000 * chunkNumber) + 1;
   // var endIndex = startIndex + 20000;
 
-  for (var i = 1800001; i <= 2200000; i++) {
+  for (var i = startIndex; i <= endIndex; i++) {
     currentGameName = 'game #' + i;
     var currentGame = randomGame(currentGameName);
     var elasticObj = {
